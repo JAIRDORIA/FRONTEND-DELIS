@@ -86,17 +86,7 @@ src/
 └── utils/        → funciones auxiliares
 ```
 
----
 
-## 👥 Equipo
-
-| Nombre | Rol |
-|--------|-----|
-| TU NOMBRE | Frontend |
-| COMPAÑERO 1 | ... |
-| COMPAÑERO 2 | ... |
-
----
 
 ## 📌 Notas
 
