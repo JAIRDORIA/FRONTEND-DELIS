@@ -54,7 +54,7 @@ export default function NuevaVentaModal({ open, onClose, onVentaCreada }) {
   } = useNuevaVentaStore();
   const { balance, fetchBalance } = useBalanceStore();
   const [clienteNombre, setClienteNombre] = useState('')
-const [clienteIdentificacion, setClienteIdentificacion] = useState('')
+  const [clienteIdentificacion, setClienteIdentificacion] = useState('')
 
   const selectProductoRef = useRef(null);
   const [textoBusqueda, setTextoBusqueda] = useState("");
@@ -80,7 +80,7 @@ const [clienteIdentificacion, setClienteIdentificacion] = useState('')
       precio_detal: p.precio_detal,
       precio_almayor: p.precio_mayor,
     }));
-    console.log(productos);
+
 
     const combs = combos.map((c) => ({
       ...c,
@@ -308,7 +308,7 @@ const [clienteIdentificacion, setClienteIdentificacion] = useState('')
 
                 {clienteId && (
                   <p className="text-xs text-indigo-600 mt-1">
-                     Cliente seleccionado: {clienteNombre} ({clienteIdentificacion})
+                    Cliente seleccionado: {clienteNombre} ({clienteIdentificacion})
                   </p>
                 )}
               </div>

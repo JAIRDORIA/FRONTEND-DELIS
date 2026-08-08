@@ -112,7 +112,7 @@ export const useNuevaVentaStore = create((set, get) => ({
       const data = res.data;
       const combosData = Array.isArray(data) ? data : data.items || data.datos || [];
       set({ combos: combosData });
-      console.log('Combos cargados:', combosData);
+      
     } catch (err) {
       console.error('Error al cargar combos', err);
     }
