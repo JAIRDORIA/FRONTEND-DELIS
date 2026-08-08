@@ -5,7 +5,7 @@ import {
   Search,
   Pencil,
   Trash2,
-  Loader2,  
+  Loader2,
   X,
   AlertTriangle,
   CheckCircle,
@@ -80,11 +80,11 @@ const TIPO_CONFIG = {
 export default function Ventas() {
   const { ventas, total, pagina, total_paginas, cargando, error, fetchVentas } =
     useVentasStore();
- 
+
   const [detalleVenta, setDetalleVenta] = useState(null);
   const [cargandoDetalle, setCargandoDetalle] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-   const [busquedaInput, setBusquedaInput] = useState(busqueda) ;
+  const [busquedaInput, setBusquedaInput] = useState(busqueda);
   const [modalOpen, setModalOpen] = useState(false);
   const [eliminarId, setEliminarId] = useState(null);
   const [anulando, setAnulando] = useState(false);
@@ -106,16 +106,16 @@ export default function Ventas() {
   const [buscando, setBuscando] = useState(false)
   const debounceRef = useRef(null)
 
-const handleSearch = (value) => {
+  const handleSearch = (value) => {
     setBusquedaInput(value)
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(async () => {
-        setBusqueda(value)
-        setBuscando(true)                          // Activa spinner local
-        await fetchVentas(1, 20, null, value, { silent: true }) // Búsqueda silenciosa
-        setBuscando(false)                         // Desactiva spinner local
+      setBusqueda(value)
+      setBuscando(true)                          // Activa spinner local
+      await fetchVentas(1, 20, null, value, { silent: true }) // Búsqueda silenciosa
+      setBuscando(false)                         // Desactiva spinner local
     }, 300)
-}
+  }
 
   // Cargar tipos de pago para las ventas visibles
 
@@ -310,7 +310,7 @@ const handleSearch = (value) => {
   };
 
   const lista = ventas.filter((v) => {
-    
+
     const matchE =
       filtroEstados.length === 0 || filtroEstados.includes(v.estado);
 
@@ -318,7 +318,7 @@ const handleSearch = (value) => {
     let matchT = false;
 
 
-     
+
     if (filtroTipos.length === 0) {
       matchT = true; // sin filtros activos → mostrar todo
     } else {
@@ -333,7 +333,7 @@ const handleSearch = (value) => {
       }
     }
 
-    return  matchE && matchT;
+    return matchE && matchT;
   });
   // Debería devolver la nueva función con 'saldo_pendiente > 0'
 
@@ -655,10 +655,10 @@ const handleSearch = (value) => {
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
             />
             {buscando && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <Loader2 size={16} className="animate-spin text-indigo-500" />
-        </div>
-    )}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <Loader2 size={16} className="animate-spin text-indigo-500" />
+              </div>
+            )}
           </div>
 
           <div ref={filtroRef} className="relative">
@@ -1000,7 +1000,7 @@ const handleSearch = (value) => {
           {total_paginas > 1 && (
             <div className="flex items-center gap-2">
               <button
-                onClick={() =>  fetchVentas(pagina - 1, 20, null, busqueda)}
+                onClick={() => fetchVentas(pagina - 1, 20, null, busqueda)}
                 disabled={pagina === 1}
                 className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white disabled:opacity-40 hover:bg-slate-50 transition-all font-medium text-slate-600"
                 style={{
@@ -1127,6 +1127,10 @@ const handleSearch = (value) => {
               </span>{" "}
               pasará a estado <strong>Entregada</strong>. ¿Confirmas?
             </p>
+            <br />
+            <span className="text-xs text-amber-600">
+              Se descontarán los productos del inventario.
+            </span>
             <div className="flex gap-3">
               <button
                 onClick={() => setEntregarId(null)}
@@ -1424,7 +1428,7 @@ const handleSearch = (value) => {
                   {ESTADOS_CONFIG[detalleVenta.estado]?.label}
                 </span>
                 <span className="text-sm text-slate-400">
-                  Entrega: {formatearFechaColombia(detalleVenta.fecha_entrega) }
+                  Entrega: {formatearFechaColombia(detalleVenta.fecha_entrega)}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -1522,7 +1526,7 @@ const handleSearch = (value) => {
                     Fecha de venta
                   </p>
                   <p className="font-medium text-slate-800">
-                    {formatearFechaColombia(comprobante.fecha_venta) }
+                    {formatearFechaColombia(comprobante.fecha_venta)}
                   </p>
                 </div>
                 <div>
@@ -1530,7 +1534,7 @@ const handleSearch = (value) => {
                     Fecha de entrega
                   </p>
                   <p className="font-medium text-slate-800">
-                    {formatearFechaColombia(comprobante.fecha_entrega) }
+                    {formatearFechaColombia(comprobante.fecha_entrega)}
                   </p>
                 </div>
               </div>
