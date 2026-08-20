@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { listarPrestamos, crearPrestamo, pagarPrestamo } from '../api/prestamos_api'
+import { listarPrestamos, crearPrestamo, abonarPrestamo, listarPagosPrestamo } from '../api/prestamos_api'
 
 export const usePrestamosStore = create((set, get) => ({
   prestamos: [],
@@ -36,16 +36,25 @@ export const usePrestamosStore = create((set, get) => ({
     }
   },
 
-  // medio_pago: medio con el que el cliente esta pagando en este momento
-  marcarPagado: async (id, usuario_id, medio_pago) => {
+  // data: { usuario_id, monto, medio_pago, observacion }
+  abonar: async (prestamoId, data) => {
     try {
-      const res = await pagarPrestamo(id, usuario_id, medio_pago)
+      const res = await abonarPrestamo(prestamoId, data)
       set((state) => ({
-        prestamos: state.prestamos.map((p) => (p.id === id ? res.data.datos : p)),
+        prestamos: state.prestamos.map((p) => (p.id === prestamoId ? res.data.datos : p)),
       }))
-      return { ok: true }
+      return { ok: true, datos: res.data.datos }
     } catch (err) {
-      return { ok: false, mensaje: err.response?.data?.mensaje || 'Error al pagar el prestamo' }
+      return { ok: false, mensaje: err.response?.data?.mensaje || 'Error al registrar el abono' }
+    }
+  },
+
+  obtenerHistorialAbonos: async (prestamoId) => {
+    try {
+      const res = await listarPagosPrestamo(prestamoId)
+      return { ok: true, datos: res.data }
+    } catch (err) {
+      return { ok: false, mensaje: err.response?.data?.mensaje || 'Error al cargar el historial' }
     }
   },
 }))

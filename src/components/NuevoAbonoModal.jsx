@@ -22,28 +22,40 @@ export default function NuevoAbonoModal({ open, onClose, onAbonoCreado }) {
   const { crearAbono } =useAbonosModuleStore()
   const { balance, fetchBalance,fetchResumenFuturo,resumenFuturo } = useBalanceStore()
 
-  useEffect(() => {
-    if (open) {
-      getClientes(1,200).then(res => setClientes(res.data.items || res.data.datos || []))
-      if (!balance) fetchBalance()
-      if (!resumenFuturo) fetchResumenFuturo()
-    } else {
-      // Limpiar al cerrar
-      setBusquedaCliente('')
-      setClienteSeleccionado(null)
-      setVentasCliente([])
-      setVentaSeleccionada(null)
-      setMonto(0)
-      setMedioPago('efectivo')
-      setObservacion('')
-      setError('')
-      setExito(false)
-    }
-  }, [open])
+  // Al abrir/cerrar el modal: ya no carga 200 clientes de una vez
+useEffect(() => {
+  if (open) {
+    if (!balance) fetchBalance()
+    if (!resumenFuturo) fetchResumenFuturo()
+  } else {
+    setBusquedaCliente('')
+    setClienteSeleccionado(null)
+    setClientes([])
+    setVentasCliente([])
+    setVentaSeleccionada(null)
+    setMonto(0)
+    setMedioPago('efectivo')
+    setObservacion('')
+    setError('')
+    setExito(false)
+  }
+}, [open])
 
-  const clientesFiltrados = busquedaCliente
-    ? clientes.filter(c => c.Cli_Nombre?.toLowerCase().includes(busquedaCliente.toLowerCase()))
-    : []
+// Busqueda de clientes en el backend, con debounce
+useEffect(() => {
+  if (!open || !busquedaCliente || clienteSeleccionado) {
+    setClientes([])
+    return
+  }
+  const timer = setTimeout(() => {
+    getClientes(1, 20, busquedaCliente)
+      .then(res => setClientes(res.data.items || res.data.datos || []))
+      .catch(() => {})
+  }, 300)
+  return () => clearTimeout(timer)
+}, [busquedaCliente, open, clienteSeleccionado])
+
+  const clientesFiltrados = clientes
 
   const seleccionarCliente = async (cliente) => {
   setClienteSeleccionado(cliente)

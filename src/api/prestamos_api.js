@@ -1,15 +1,19 @@
 import api from './axios'
 
-const BASE = '/prestamos/'
+const BASE = '/prestamos'
 
 export const listarPrestamos = (estado) => {
   const params = estado ? { estado } : {}
-  return api.get(BASE, { params })
+  return api.get(`${BASE}/`, { params })
 }
 
-export const crearPrestamo = (data) => api.post(BASE, data)
+export const crearPrestamo = (data) => api.post(`${BASE}/`, data)
 
-// medio_pago aquí es el medio con el que EL CLIENTE PAGA, puede ser
-// distinto al medio_pago con el que se le prestó originalmente.
-export const pagarPrestamo = (id, usuario_id, medio_pago) =>
-  api.put(`${BASE}${id}/pagar`, { usuario_id, medio_pago })
+
+export const listarPagosPrestamo = (prestamoId) =>
+  api.get(`${BASE}/${prestamoId}/abonos`)
+
+// medio_pago aquí es el medio con el que EL CLIENTE PAGA este abono,
+// puede ser distinto entre abonos de un mismo préstamo.
+export const abonarPrestamo = (prestamoId, data) =>
+  api.post(`${BASE}/${prestamoId}/abonos`, data)
